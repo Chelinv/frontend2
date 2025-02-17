@@ -1,4 +1,4 @@
-const API_URL = "http://127.0.0.1:5000/api/modelos";
+const API_URL = "https://backend-hpfp54r8s-chelinvs-projects.vercel.app/api/modelos";
 
 export async function fetchModelos() {
   const response = await fetch(API_URL);
