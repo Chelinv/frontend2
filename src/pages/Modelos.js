@@ -4,7 +4,7 @@ function Modelos() {
   const [modelos, setModelos] = useState([]);
 
   useEffect(() => {
-    fetch("https://backend-hpfp54r8s-chelinvs-projects.vercel.app/api/modelos")
+    fetch("https://backend-hpfp54r8s-chelinvs-projects.vercel.app/modelos")
       .then((res) => res.json())
       .then((data) => setModelos(data))
       .catch((err) => console.error(err));
