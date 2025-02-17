@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fábrica de Pantalones</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <script type="text/javascript">
+      // Frontend React Logic
+      const { useState } = React;
+      const { BrowserRouter, Routes, Route, Link } = ReactRouterDOM;
+
+      const EntradaDatos = () => {
+        const [formData, setFormData] = useState({
+          tipo: "",
+          talla: "",
+          costoTela: "",
+          costoManoObra: "",
+          ganancia: "",
+        });
+
+        const handleChange = (e) => {
+          setFormData({ ...formData, [e.target.name]: e.target.value });
+        };
+
+        const handleSubmit = async (e) => {
+          e.preventDefault();
+          try {
+            const response = await fetch("http://localhost:5000/api/modelos", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(formData),
+            });
+            if (response.ok) {
+              alert("Datos guardados con éxito");
+            }
+          } catch (error) {
+            console.error("Error al guardar los datos:", error);
+          }
+        };
+
+        return (
+          <div>
+            <h1>Entrada de Datos</h1>
+            <form onSubmit={handleSubmit}>
+              <input
+                type="text"
+                name="tipo"
+                placeholder="Tipo de Modelo"
+                value={formData.tipo}
+                onChange={handleChange}
+              />
+              <input
+                type="text"
+                name="talla"
+                placeholder="Talla"
+                value={formData.talla}
+                onChange={handleChange}
+              />
+              <input
+                type="number"
+                name="costoTela"
+                placeholder="Costo de la Tela"
+                value={formData.costoTela}
+                onChange={handleChange}
+              />
+              <input
+                type="number"
+                name="costoManoObra"
+                placeholder="Costo Mano de Obra"
+                value={formData.costoManoObra}
+                onChange={handleChange}
+              />
+              <input
+                type="number"
+                name="ganancia"
+                placeholder="Ganancia (%)"
+                value={formData.ganancia}
+                onChange={handleChange}
+              />
+              <button type="submit">Guardar</button>
+            </form>
+          </div>
+        );
+      };
+
+      const Proceso = () => {
+        return (
+          <div>
+            <h1>Proceso</h1>
+            <p>Aquí se realizarán los cálculos de costos y ganancias.</p>
+          </div>
+        );
+      };
+
+      const Salida = () => {
+        return (
+          <div>
+            <h1>Salida</h1>
+            <p>Visualización de los resultados finales.</p>
+          </div>
+        );
+      };
+
+      const App = () => {
+        return (
+          <BrowserRouter>
+            <nav>
+              <Link to="/">Entrada de Datos</Link> | <Link to="/proceso">Proceso</Link> | <Link to="/salida">Salida</Link>
+            </nav>
+            <Routes>
+              <Route path="/" element={<EntradaDatos />} />
+              <Route path="/proceso" element={<Proceso />} />
+              <Route path="/salida" element={<Salida />} />
+            </Routes>
+          </BrowserRouter>
+        );
+      };
+
+      ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+    </script>
+
+    <!-- Import React and React Router DOM from CDN -->
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-router-dom/umd/react-router-dom.development.js" crossorigin></script>
+  </body>
+</html>
